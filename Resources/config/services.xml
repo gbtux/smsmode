@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="mumbee_smsmode" class="Mumbee\SmsModeBundle\Service\SmsModeService">
+            <argument>%mumbee_smsmode.url_envoi_sms%</argument>
+            <argument>%mumbee_smsmode.url_compte_rendu_sms%</argument>
+            <argument>%mumbee_smsmode.url_solde_compte_client%</argument>
+            <argument>%mumbee_smsmode.url_creation_sous_compte_client%</argument>
+            <argument>%mumbee_smsmode.url_suppression_sous_compte_client%</argument>
+            <argument>%mumbee_smsmode.url_suppression_sms%</argument>
+            <argument>%mumbee_smsmode.url_liste_sms%</argument>
+            <argument>%mumbee_smsmode.url_statut_sms%</argument>
+            <argument>%mumbee_smsmode.url_liste_reponses_sms%</argument>
+        </service>
+    </services>
+</container>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

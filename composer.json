@@ -1,0 +1,28 @@
+{
+    "name": "mumbee/smsmode-bundle",
+    "type": "library",
+    "description": "SMSMode Bundle",
+    "keywords": ["sms","mumbee"],
+    "homepage": "https://mumbee.fr",
+    "license": "GPL-3.0+",
+    "authors": [
+        {
+            "name": "Guillaume Bordes-Cogoluenhes",
+	    "email": "guillaume@mumbee.fr"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "autoload": {
+        "psr-0": { "Mumbee\\SmsModeBundle": "" }
+    },
+    "target-dir": "Mumbee/SmsModeBundle",
+    "minimum-stability": "dev",
+    "extra" : {
+      "branch-alias" : {
+        "dev-master": "master"
+      }
+    }
+
+}
