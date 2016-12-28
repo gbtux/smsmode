@@ -146,8 +146,6 @@ class SmsModeService
 
     public function compteRendu($pseudo, $pass, $smsID, $accessToken=null)
     {
-        $ch = curl_init();
-        curl_setopt($ch,CURLOPT_URL, $this->urlCompteRenduSms);
         $fields = "";
         if(null == $accessToken){
             $fields = sprintf('accessToken=%s', $accessToken);
@@ -155,7 +153,9 @@ class SmsModeService
             $fields = sprintf('pseudo=%s&pass=%s', $pseudo, $pass);
         }
         $fields .= sprintf('&smsID=%s', $smsID);
-
+        var_dump($fields);die;
+        $ch = curl_init();
+        curl_setopt($ch,CURLOPT_URL, $this->urlCompteRenduSms);
         curl_setopt($ch,CURLOPT_POST, 1);
         curl_setopt($ch,CURLOPT_POSTFIELDS, $fields);
         $result = curl_exec($ch);
