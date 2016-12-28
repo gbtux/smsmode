@@ -1,6 +1,5 @@
 <?php
 /**
- * Created by PhpStorm.
  * User: gbtux
  * Date: 17/12/16
  * Time: 19:54
@@ -8,7 +7,12 @@
 
 namespace Mumbee\SmsModeBundle\Service;
 
+use Mumbee\SmsModeBundle\Entity\SmsModeResult;
 
+/**
+ * Class SmsModeService
+ * @package Mumbee\SmsModeBundle\Service
+ */
 class SmsModeService
 {
     /**
@@ -90,7 +94,7 @@ class SmsModeService
      * @param null $refClient : utilisé en cas de compte-rendu automatique (ex : ID client en BDD)
      * @param null $notificationUrl : URL de callback lors d'un changement de statut du SMS
      * @param null $notificationUrlReponse : : URL de callback lors d'une réponse à un SMS (si classeMsg == 4)
-     * @return mixed
+     * @return SmsModeResult
      * @throws \Exception
      */
     public function envoyerSms($pseudo, $pass, $message,
@@ -135,6 +139,26 @@ class SmsModeService
 
         $result = curl_exec($ch);
 
+        curl_close($ch);
+        return new SmsModeResult($result);
+    }
+
+
+    public function compteRendu($pseudo, $pass, $smsID, $accessToken=null)
+    {
+        $ch = curl_init();
+        curl_setopt($ch,CURLOPT_URL, $this->urlCompteRenduSms);
+        $fields = "";
+        if(null == $accessToken){
+            $fields = sprintf('accessToken=%s', $accessToken);
+        }else{
+            $fields = sprintf('pseudo=%s&pass=%s', $pseudo, $pass);
+        }
+        $fields .= sprintf('&smsID=%s', $smsID);
+
+        curl_setopt($ch,CURLOPT_POST, 1);
+        curl_setopt($ch,CURLOPT_POSTFIELDS, $fields);
+        $result = curl_exec($ch);
         curl_close($ch);
         return $result;
     }

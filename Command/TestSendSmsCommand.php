@@ -8,11 +8,13 @@
 
 namespace Mumbee\SmsModeBundle\Command;
 
+use Mumbee\SmsModeBundle\Entity\SmsModeResult;
 use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * Class TestSendSmsCommand
@@ -44,7 +46,13 @@ class TestSendSmsCommand extends ContainerAwareCommand
         //$phones .= implode(',', $numbers);
 
         $smsService = $this->getContainer()->get('mumbee_smsmode');
-        $smsService->envoyerSms($pseudo, $password, 'Ceci est un message de test du MumbeeSMSModeBundle', $numbers, 'MUMBEE');
+        $result = $smsService->envoyerSms($pseudo, $password, 'Ceci est un message de test du MumbeeSMSModeBundle', $numbers, 'MUMBEE');
+        $io = new SymfonyStyle($input, $output);
+        if($result->getCode() == SmsModeResult::CODE_RETOUR_ACCEPTE){
+            $io->success(sprintf("SMS envoyé avec l'ID %s", $result->getSmsID()));
+        }else{
+            $io->error(sprintf("L'erreur avec le code %s (%s) est apparue lors de l'envoi (ID : %s)", $result->getCode(), $result->getDescription(), $result->getSmsID()));
+        }
     }
 
 }
