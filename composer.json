@@ -1,6 +1,6 @@
 {
     "name": "mumbee/smsmode-bundle",
-    "type": "library",
+    "type": "symfony-bundle",
     "description": "SMSMode Bundle",
     "keywords": ["sms","mumbee"],
     "homepage": "https://mumbee.fr",
