@@ -45,3 +45,13 @@ class AppKernel extends Kernel
     // ...
 }
 ```
+
+Step 3: Test integration
+------------------------
+
+You can test with your own number with an integrated test command :
+
+```
+php bin/console mumbee:sms:send <SMSMode_pseudo> <SMSMode_password> <phonenumber(s) with space separator>
+```
+ 
