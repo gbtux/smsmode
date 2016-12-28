@@ -103,7 +103,7 @@ class SmsModeService
     {
         $texte = mb_convert_encoding($message, "ISO-8859-15", "auto");
         $fields = "";
-        if(null == $accessToken){
+        if(null != $accessToken){
             $fields = sprintf('accessToken=%s', $accessToken);
         }else{
             $fields = sprintf('pseudo=%s&pass=%s', $pseudo, $pass);
@@ -147,13 +147,12 @@ class SmsModeService
     public function compteRendu($pseudo, $pass, $smsID, $accessToken=null)
     {
         $fields = "";
-        if(null == $accessToken){
+        if(null != $accessToken){
             $fields = sprintf('accessToken=%s', $accessToken);
         }else{
             $fields = sprintf('pseudo=%s&pass=%s', $pseudo, $pass);
         }
         $fields .= sprintf('&smsID=%s', $smsID);
-        var_dump($fields);die;
         $ch = curl_init();
         curl_setopt($ch,CURLOPT_URL, $this->urlCompteRenduSms);
         curl_setopt($ch,CURLOPT_POST, 1);
