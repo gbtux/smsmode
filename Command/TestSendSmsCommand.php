@@ -44,7 +44,7 @@ class TestSendSmsCommand extends ContainerAwareCommand
         //$phones .= implode(',', $numbers);
 
         $smsService = $this->getContainer()->get('mumbee_smsmode');
-        $smsService->envoyerSms($pseudo, $password, 'Ceci est un message', $numbers, 'MUMBEE');
+        $smsService->envoyerSms($pseudo, $password, 'Ceci est un message de test du MumbeeSMSModeBundle', $numbers, 'MUMBEE');
     }
 
 }
