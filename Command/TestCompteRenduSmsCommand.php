@@ -40,7 +40,7 @@ class TestCompteRenduSmsCommand extends ContainerAwareCommand
 
         $smsService = $this->getContainer()->get('mumbee_smsmode');
         $result = $smsService->compteRendu($pseudo, $password, $smsID);
-        var_dump($result);die;
+        $output->writeln($result);
     }
 
 }
