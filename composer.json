@@ -17,11 +17,5 @@
     "autoload": {
         "psr-0": { "Mumbee\\SmsModeBundle": "" }
     },
-    "target-dir": "Mumbee/SmsModeBundle",
-    "extra" : {
-      "branch-alias" : {
-        "dev-master": "master"
-      }
-    }
-
+    "target-dir": "Mumbee/SmsModeBundle"
 }
