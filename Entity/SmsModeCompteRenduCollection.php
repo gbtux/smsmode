@@ -14,14 +14,14 @@ namespace Mumbee\SmsModeBundle\Entity;
  */
 class SmsModeCompteRenduCollection
 {
-    private $collection;
+    private $collection = array();
 
     public function __construct($result)
     {
         $parsed = explode("|",$result);
         foreach($parsed as $entry) {
             if(count($entry) == 2){
-                $collection[] = new SmsModeCompteRendu($entry);
+                $this->collection[] = new SmsModeCompteRendu($entry);
             }
         }
     }
