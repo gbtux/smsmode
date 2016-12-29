@@ -83,3 +83,8 @@ All the feature is covered by a simple command :
 php bin/console mumbee:sms:compte_rendu <SMSMode_pseudo> <SMSMode_password> <SMS_ID>
 ```
 
+### Get the account balance
+
+```
+php bin/console mumbee:sms:solde <SMSMode_pseudo> <SMSMode_password>
+```
