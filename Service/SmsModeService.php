@@ -8,6 +8,7 @@
 namespace Mumbee\SmsModeBundle\Service;
 
 use Mumbee\SmsModeBundle\Entity\SmsModeResult;
+use Mumbee\SmsModeBundle\Entity\SmsModeCompteRenduCollection;
 
 /**
  * Class SmsModeService
@@ -143,7 +144,14 @@ class SmsModeService
         return new SmsModeResult($result);
     }
 
-
+    /**
+     * Get the "compte rendu" of a sms sent
+     * @param $pseudo
+     * @param $pass
+     * @param $smsID
+     * @param null $accessToken
+     * @return SmsModeCompteRenduCollection : array of SmsModeCompteRendu
+     */
     public function compteRendu($pseudo, $pass, $smsID, $accessToken=null)
     {
         $fields = "";
@@ -159,7 +167,7 @@ class SmsModeService
         curl_setopt($ch,CURLOPT_POSTFIELDS, $fields);
         $result = curl_exec($ch);
         curl_close($ch);
-        return $result;
+        return new SmsModeCompteRenduCollection($result);
     }
 
 }

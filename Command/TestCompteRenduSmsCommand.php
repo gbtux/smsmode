@@ -8,7 +8,6 @@
 
 namespace Mumbee\SmsModeBundle\Command;
 
-use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -39,8 +38,10 @@ class TestCompteRenduSmsCommand extends ContainerAwareCommand
         $smsID = $input->getArgument('smsID');
 
         $smsService = $this->getContainer()->get('mumbee_smsmode');
-        $result = $smsService->compteRendu($pseudo, $password, $smsID);
-        $output->writeln($result);
+        $smsCRCollection = $smsService->compteRendu($pseudo, $password, $smsID);
+
+        $io = new SymfonyStyle($input, $output);
+        $io->table(array('numero', 'code statut', 'libelle statut'), $smsCRCollection->getArrayCollection());
     }
 
 }
