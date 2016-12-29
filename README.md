@@ -46,7 +46,21 @@ class AppKernel extends Kernel
 }
 ```
 
-Step 3: Test integration
+Step 3: Configuration
+------------------------
+
+This bundle is default configured for the 1.6 SMSMode API.
+
+You can watch the defaut configured URL in the DependencyInjection\Configuration class.
+
+By the way, you can override this in your project (the famous app/config.yml).
+
+```
+mumbee_sms_mode:
+    url_envoi_sms: https://smsmode.com/thenewurl.do
+```
+
+Step 4: Test integration
 ------------------------
 
 You can test with your own number with an integrated test command :
@@ -55,3 +69,15 @@ You can test with your own number with an integrated test command :
 php bin/console mumbee:sms:send <SMSMode_pseudo> <SMSMode_password> <phonenumber(s) with space separator>
 ```
  
+Other commands
+--------------
+
+All the feature is covered by a simple command :
+
+
+### Get a "compte-rendu":
+
+```
+php bin/console mumbee:sms:compte_rendu <SMSMode_pseudo> <SMSMode_password> <SMS_ID>
+```
+
