@@ -171,4 +171,29 @@ class SmsModeService
         return new SmsModeCompteRenduCollection($result);
     }
 
+    /**
+     * Retourne le solde du compte client
+     * @param $pseudo
+     * @param $pass
+     * @param null $accessToken
+     * @return mixed
+     */
+    public function soldeCompteClient($pseudo, $pass, $accessToken=null)
+    {
+        $fields = "";
+        if(null != $accessToken){
+            $fields = sprintf('accessToken=%s', $accessToken);
+        }else{
+            $fields = sprintf('pseudo=%s&pass=%s', $pseudo, $pass);
+        }
+        $ch = curl_init();
+        curl_setopt($ch,CURLOPT_URL, $this->urlSoldeCompteClient);
+        curl_setopt($ch,CURLOPT_POST, 1);
+        curl_setopt($ch,CURLOPT_POSTFIELDS, $fields);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        $result = curl_exec($ch);
+        curl_close($ch);
+        return $result;
+    }
+
 }
