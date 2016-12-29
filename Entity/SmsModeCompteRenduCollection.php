@@ -20,8 +20,11 @@ class SmsModeCompteRenduCollection
     {
         $parsed = explode("|",$result);
         foreach($parsed as $entry) {
-            if(count($entry) == 2){
-                $this->collection[] = new SmsModeCompteRendu($entry);
+            if(count($entry) > 0){
+                $cr = new SmsModeCompteRendu($entry);
+                if(null !== $cr)
+                    $this->collection[] = $cr;
+
             }
         }
     }
