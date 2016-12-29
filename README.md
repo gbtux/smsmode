@@ -1,6 +1,8 @@
 Mumbee SMSModeBundle
 --------------------
 
+This bundle is made by [Mumbee](https://mumbee.fr)
+
 Installation
 ============
 
