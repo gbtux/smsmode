@@ -86,7 +86,7 @@ class SmsModeService
      * @param $pass : password du compte client (non obligatoire si utilisation de l'accessToken)
      * @param $message : message non formatté
      * @param array $numeros : array de numeros
-     * @param null $accessToken : token à utiliser si pseudo et pass sont absents
+     * @param null $accessToken : si authentification par token (pseudo et pass optionnel dans ce cas)
      * @param null $emetteur : chaine affichée comme émetteur du SMS
      * @param null $groupe : si numeros vides : identifiant du groupe de numeros renseigné sur SMSMode
      * @param int $classeMsg : 2 par défaut ou 4 avec réponse autorisée
@@ -148,8 +148,8 @@ class SmsModeService
      * Get the "compte rendu" of a sms sent
      * @param $pseudo
      * @param $pass
-     * @param $smsID
-     * @param null $accessToken
+     * @param $smsID : ID de l'envoi SMS (renvoye par la methode envoyerSms)
+     * @param null $accessToken : si authentification par token (pseudo et pass optionnel dans ce cas)
      * @return SmsModeCompteRenduCollection : array of SmsModeCompteRendu
      */
     public function compteRendu($pseudo, $pass, $smsID, $accessToken=null)
@@ -173,9 +173,9 @@ class SmsModeService
 
     /**
      * Retourne le solde du compte client
-     * @param $pseudo
-     * @param $pass
-     * @param null $accessToken
+     * @param $pseudo : pseudo du compte principal
+     * @param $pass : password du compte principal
+     * @param null $accessToken : si authentification par token (pseudo et pass optionnel dans ce cas)
      * @return mixed
      */
     public function soldeCompteClient($pseudo, $pass, $accessToken=null)
@@ -186,6 +186,45 @@ class SmsModeService
         }else{
             $fields = sprintf('pseudo=%s&pass=%s', $pseudo, $pass);
         }
+
+        $ch = curl_init();
+        curl_setopt($ch,CURLOPT_URL, $this->urlSoldeCompteClient);
+        curl_setopt($ch,CURLOPT_POST, 1);
+        curl_setopt($ch,CURLOPT_POSTFIELDS, $fields);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        $result = curl_exec($ch);
+        curl_close($ch);
+        return $result;
+    }
+
+    /**
+     * Creer un sous compte client
+     * @param $pseudo : pseudo du compte principal
+     * @param $pass : password du compte principal
+     * @param null $accessToken : si authentification par token (pseudo et pass optionnel dans ce cas)
+     * @param $newPseudo : pseudo du sous compte
+     * @param $newPassword : password du sous compte
+     * @param null $reference : optionnel si on veut garder une reference du compte
+     * @return mixed
+     * @throws \Exception : si newPseudo > 50 caracteres
+     */
+    public function creerSousSompte($pseudo, $pass, $accessToken=null, $newPseudo, $newPassword, $reference = null)
+    {
+        if(strlen($newPseudo > 50))
+            throw new \Exception("Max lenght of new pseudo is 50 characters");
+        $fields = "";
+        if(null != $accessToken){
+            $fields = sprintf('accessToken=%s', $accessToken);
+        }else{
+            $fields = sprintf('pseudo=%s&pass=%s', $pseudo, $pass);
+        }
+        $fields .= sprintf('&newPseudo=%s', $newPseudo);
+        $fields .= sprintf('&newPass=%s', $newPassword);
+
+        if(null != $reference){
+            $fields .= sprintf('&reference=%s', $reference);
+        }
+
         $ch = curl_init();
         curl_setopt($ch,CURLOPT_URL, $this->urlSoldeCompteClient);
         curl_setopt($ch,CURLOPT_POST, 1);
