@@ -226,7 +226,7 @@ class SmsModeService
         }
 
         $ch = curl_init();
-        curl_setopt($ch,CURLOPT_URL, $this->urlSoldeCompteClient);
+        curl_setopt($ch,CURLOPT_URL, $this->urlCreationSousCompteClient);
         curl_setopt($ch,CURLOPT_POST, 1);
         curl_setopt($ch,CURLOPT_POSTFIELDS, $fields);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
