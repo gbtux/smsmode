@@ -96,3 +96,7 @@ php bin/console mumbee:sms:compte:create <SMSMode_pseudo> <SMSMode_password> <ne
 ```
 
 ### Delete a sub account
+
+```
+php bin/console mumbee:sms:compte:delete <SMSMode_pseudo> <SMSMode_password> <pseudoToDelete>
+```

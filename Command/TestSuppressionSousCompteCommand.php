@@ -48,7 +48,11 @@ class TestSuppressionSousCompteCommand extends ContainerAwareCommand
         $smsService = $this->getContainer()->get('mumbee_smsmode');
         $result = $smsService->supprimerSousCompte($pseudo, $password, null, $pseudoToDelete);
         $io = new SymfonyStyle($input, $output);
-        $io->success($result);
+        if($result->getCode() == SmsModeCreationResult::CODE_RETOUR_CREATION_EFFECTUEE) {
+            $io->success(sprintf('Le compte %s a été supprimé avec succès : code %s (%s)', $pseudoToDelete, $result->getCode(), $result->getDescription()));
+        }else{
+            $io->warning(sprintf('La suppression du compte %s a échouée : code %s (%s)', $pseudoToDelete, $result->getCode(), $result->getDescription()));
+        }
     }
 
 }
