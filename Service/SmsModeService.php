@@ -277,7 +277,7 @@ class SmsModeService
      * @param $targetPseudo : pseudo du compte à crediter
      * @param int $credits : nombre de credits à créditer (entier)
      */
-    public function transfererCredits($pseudo, $pass, $accessToken=null,$targetPseudo, integer $credits, $reference=null)
+    public function transfererCredits($pseudo, $pass, $accessToken=null,$targetPseudo, $credits, $reference=null)
     {
         $fields = "";
         if(null != $accessToken){
@@ -286,7 +286,7 @@ class SmsModeService
             $fields = sprintf('pseudo=%s&pass=%s', $pseudo, $pass);
         }
         $fields .= sprintf('&targetPseudo=%s', $targetPseudo);
-        $fields .= sprintf('&creditAmount=%d', $credits);
+        $fields .= sprintf('&creditAmount=%s', $credits);
         if(null != $reference){
             $fields .= sprintf('&reference=%s', $reference);
         }

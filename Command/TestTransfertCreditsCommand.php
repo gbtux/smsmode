@@ -51,7 +51,7 @@ class TestTransfertCreditsCommand extends ContainerAwareCommand
         $reference = $input->getArgument('reference');
 
         $smsService = $this->getContainer()->get('mumbee_smsmode');
-        $result = $smsService->transfererCredits($pseudo, $password, null, $targetPseudo, (integer)$credits, $reference);
+        $result = $smsService->transfererCredits($pseudo, $password, null, $targetPseudo, $credits, $reference);
         $io = new SymfonyStyle($input, $output);
         $io->success($result);
     }
