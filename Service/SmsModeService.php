@@ -68,14 +68,26 @@ class SmsModeService
     private $urlTransfertCredits;
 
     /**
-     * Constructor
+     * @var
+     */
+    private $urlAjoutContact;
+
+    /**
      * @param $urlEnvoiSms
      * @param $urlCompteRenduSms
      * @param $urlSoldeCompteClient
+     * @param $urlCreationSousCompteClient
+     * @param $urlSuppressionSousCompteClient
+     * @param $urlSuppressionSms
+     * @param $urlListeSms
+     * @param $urlStatutSms
+     * @param $urlListeReponsesSms
+     * @param $urlTransfertCredits
+     * @param $urlAjoutContact
      */
     public function __construct($urlEnvoiSms, $urlCompteRenduSms, $urlSoldeCompteClient, $urlCreationSousCompteClient,
                                 $urlSuppressionSousCompteClient, $urlSuppressionSms, $urlListeSms, $urlStatutSms, $urlListeReponsesSms,
-                                $urlTransfertCredits)
+                                $urlTransfertCredits, $urlAjoutContact)
     {
         $this->urlEnvoiSms = $urlEnvoiSms;
         $this->urlCompteRenduSms = $urlCompteRenduSms;
@@ -87,6 +99,7 @@ class SmsModeService
         $this->urlStatutSms = $urlStatutSms;
         $this->urlListeReponsesSms = $urlListeReponsesSms;
         $this->urlTransfertCredits = $urlTransfertCredits;
+        $this->urlAjoutContact = $urlAjoutContact;
     }
 
     /**
@@ -229,9 +242,9 @@ class SmsModeService
         $fields .= sprintf('&newPseudo=%s', $newPseudo);
         $fields .= sprintf('&newPass=%s', $newPassword);
 
-        if(null != $reference){
+        if(null != $reference)
             $fields .= sprintf('&reference=%s', $reference);
-        }
+
 
         $ch = curl_init();
         curl_setopt($ch,CURLOPT_URL, $this->urlCreationSousCompteClient);
@@ -278,7 +291,7 @@ class SmsModeService
      * @param int $credits : nombre de credits à créditer (entier)
      * @return SmsModeSimpleResult
      */
-    public function transfererCredits($pseudo, $pass, $accessToken=null,$targetPseudo, $credits, $reference=null)
+    public function transfererCredits($pseudo, $pass, $accessToken=null, $targetPseudo, $credits, $reference=null)
     {
         $fields = "";
         if(null != $accessToken){
@@ -288,9 +301,8 @@ class SmsModeService
         }
         $fields .= sprintf('&targetPseudo=%s', $targetPseudo);
         $fields .= sprintf('&creditAmount=%s', $credits);
-        if(null != $reference){
+        if(null != $reference)
             $fields .= sprintf('&reference=%s', $reference);
-        }
 
         $ch = curl_init();
         curl_setopt($ch,CURLOPT_URL, $this->urlTransfertCredits);
@@ -301,5 +313,57 @@ class SmsModeService
         curl_close($ch);
         return new SmsModeSimpleResult($result);
     }
+
+    /**
+     * @param $pseudo : pseudo du compte principal
+     * @param $pass : password du compte principal
+     * @param null $accessToken : si authentification par token (pseudo et pass optionnel dans ce cas)
+     * @param $nom : nom du nouveau contact
+     * @param $mobile : numero de mobile du nouveau contact
+     * @param null $prenom : (optionnel) prenom du nouveau contact
+     * @param null $societe : (optionnel) societe du nouveau contact
+     * @param null $other : (optionnel) autre champs du nouveau contact
+     * @param \DateTime|null $date : (optionnel) date de naissance du nouveau contact
+     * @param array|null $groupes : (optionnel) groupes du nouveau contact
+     * @return SmsModeSimpleResult
+     */
+    public function ajouterContact($pseudo, $pass, $accessToken=null, $nom, $mobile, $prenom=null, $societe=null,
+                                   $other=null, \DateTime $date=null, array $groupes=null)
+    {
+        $fields = "";
+        if(null != $accessToken){
+            $fields = sprintf('accessToken=%s', $accessToken);
+        }else{
+            $fields = sprintf('pseudo=%s&pass=%s', $pseudo, $pass);
+        }
+        $fields .= sprintf('&nom=%s', $nom);
+        $fields .= sprintf('&mobile=%s', $mobile);
+        if(null != $prenom)
+            $fields .= sprintf('&prenom=%s', $prenom);
+
+        if(null != $societe)
+            $fields .= sprintf('&societe=%s', $societe);
+
+        if(null != $other)
+            $fields .= sprintf('&other=%s', $other);
+
+        if(null != $date)
+            $fields .= sprintf('&date=%s', $date->format('dmY-H:i'));
+
+        if(null != $groupes){
+            $groups = implode(',', $groupes);
+            $fields .= sprintf('&groupes=%s', $groups);
+        }
+
+        $ch = curl_init();
+        curl_setopt($ch,CURLOPT_URL, $this->urlAjoutContact);
+        curl_setopt($ch,CURLOPT_POST, 1);
+        curl_setopt($ch,CURLOPT_POSTFIELDS, $fields);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        $result = curl_exec($ch);
+        curl_close($ch);
+        return new SmsModeSimpleResult($result);
+    }
+
 
 }

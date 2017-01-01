@@ -16,6 +16,7 @@
             <argument>%mumbee_smsmode.url_statut_sms%</argument>
             <argument>%mumbee_smsmode.url_liste_reponses_sms%</argument>
             <argument>%mumbee_smsmode.url_transfert_credits%</argument>
+            <argument>%mumbee_smsmode.url_ajout_contact%</argument>
         </service>
     </services>
 </container>
