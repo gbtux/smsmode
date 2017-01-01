@@ -100,3 +100,10 @@ php bin/console mumbee:sms:compte:create <SMSMode_pseudo> <SMSMode_password> <ne
 ```
 php bin/console mumbee:sms:compte:delete <SMSMode_pseudo> <SMSMode_password> <pseudoToDelete>
 ```
+
+### Transferring credits
+
+```
+php bin/console mumbee:sms:transfert <SMSMode_pseudo> <SMSMode_password> <targetPseudo> <nbCredits>
+```
+

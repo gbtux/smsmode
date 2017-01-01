@@ -9,7 +9,7 @@
 namespace Mumbee\SmsModeBundle\Entity;
 
 
-class SmsModeCreationResult
+class SmsModeSimpleResult
 {
 
     const CODE_RETOUR_CREATION_EFFECTUEE = '0';

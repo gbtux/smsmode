@@ -7,7 +7,7 @@
 
 namespace Mumbee\SmsModeBundle\Service;
 
-use Mumbee\SmsModeBundle\Entity\SmsModeCreationResult;
+use Mumbee\SmsModeBundle\Entity\SmsModeSimpleResult;
 use Mumbee\SmsModeBundle\Entity\SmsModeResult;
 use Mumbee\SmsModeBundle\Entity\SmsModeCompteRenduCollection;
 
@@ -213,7 +213,7 @@ class SmsModeService
      * @param $newPseudo : pseudo du sous compte
      * @param $newPassword : password du sous compte
      * @param null $reference : optionnel si on veut garder une reference du compte
-     * @return SmsModeCreationResult
+     * @return SmsModeSimpleResult
      * @throws \Exception : si newPseudo > 50 caracteres
      */
     public function creerSousSompte($pseudo, $pass, $accessToken=null, $newPseudo, $newPassword, $reference = null)
@@ -240,7 +240,7 @@ class SmsModeService
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
         $result = curl_exec($ch);
         curl_close($ch);
-        return new SmsModeCreationResult($result);
+        return new SmsModeSimpleResult($result);
     }
 
     /**
@@ -249,7 +249,7 @@ class SmsModeService
      * @param $pass : password du compte principal
      * @param null $accessToken : si authentification par token (pseudo et pass optionnel dans ce cas)
      * @param $pseudoToDelete : pseudo du sous compte à supprimer
-     * @return SmsModeCreationResult
+     * @return SmsModeSimpleResult
      */
     public function supprimerSousCompte($pseudo, $pass, $accessToken=null, $pseudoToDelete)
     {
@@ -267,7 +267,7 @@ class SmsModeService
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
         $result = curl_exec($ch);
         curl_close($ch);
-        return new SmsModeCreationResult($result);
+        return new SmsModeSimpleResult($result);
     }
 
     /**
@@ -276,6 +276,7 @@ class SmsModeService
      * @param null $accessToken : si authentification par token (pseudo et pass optionnel dans ce cas)
      * @param $targetPseudo : pseudo du compte à crediter
      * @param int $credits : nombre de credits à créditer (entier)
+     * @return SmsModeSimpleResult
      */
     public function transfererCredits($pseudo, $pass, $accessToken=null,$targetPseudo, $credits, $reference=null)
     {
@@ -298,7 +299,7 @@ class SmsModeService
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
         $result = curl_exec($ch);
         curl_close($ch);
-        return $result;
+        return new SmsModeSimpleResult($result);
     }
 
 }

@@ -8,7 +8,7 @@
 
 namespace Mumbee\SmsModeBundle\Command;
 
-use Mumbee\SmsModeBundle\Entity\SmsModeCreationResult;
+use Mumbee\SmsModeBundle\Entity\SmsModeSimpleResult;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -53,7 +53,11 @@ class TestTransfertCreditsCommand extends ContainerAwareCommand
         $smsService = $this->getContainer()->get('mumbee_smsmode');
         $result = $smsService->transfererCredits($pseudo, $password, null, $targetPseudo, $credits, $reference);
         $io = new SymfonyStyle($input, $output);
-        $io->success($result);
+        if($result->getCode() == SmsModeSimpleResult::CODE_RETOUR_CREATION_EFFECTUEE) {
+            $io->success(sprintf('Le transfert de %s credits du compte %s vers le compte %s a été effectué avec succès : code %s (%s)', $credits, $pseudo, $targetPseudo, $result->getCode(), $result->getDescription()));
+        }else{
+            $io->warning(sprintf('Le transfert a échoué : code %s (%s)', $result->getCode(), $result->getDescription()));
+        }
     }
 
 }
