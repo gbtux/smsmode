@@ -277,7 +277,7 @@ class SmsModeService
      * @param $targetPseudo : pseudo du compte à crediter
      * @param int $credits : nombre de credits à créditer (entier)
      */
-    public function transfererCredits($pseudo, $pass, $accessToken=null,$targetPseudo, int $credits, $reference=null)
+    public function transfererCredits($pseudo, $pass, $accessToken=null,$targetPseudo, integer $credits, $reference=null)
     {
         $fields = "";
         if(null != $accessToken){
