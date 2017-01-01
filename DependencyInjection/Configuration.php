@@ -49,6 +49,9 @@ class Configuration implements ConfigurationInterface
                     ->scalarNode('url_liste_reponses_sms')
                         ->defaultValue('https://api.smsmode.com/http/1.6/responseList.do')
                         ->end()
+                    ->scalarNode('url_transfert_credits')
+                        ->defaultValue('https://api.smsmode.com/http/1.6/creditTransfert.do')
+                        ->end()
                  ->end()
         ;
         // Here you should define the parameters that are allowed to

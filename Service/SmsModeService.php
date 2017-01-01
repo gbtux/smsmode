@@ -63,13 +63,19 @@ class SmsModeService
     private $urlListeReponsesSms;
 
     /**
+     * @var
+     */
+    private $urlTransfertCredits;
+
+    /**
      * Constructor
      * @param $urlEnvoiSms
      * @param $urlCompteRenduSms
      * @param $urlSoldeCompteClient
      */
     public function __construct($urlEnvoiSms, $urlCompteRenduSms, $urlSoldeCompteClient, $urlCreationSousCompteClient,
-                                $urlSuppressionSousCompteClient, $urlSuppressionSms, $urlListeSms, $urlStatutSms, $urlListeReponsesSms)
+                                $urlSuppressionSousCompteClient, $urlSuppressionSms, $urlListeSms, $urlStatutSms, $urlListeReponsesSms,
+                                $urlTransfertCredits)
     {
         $this->urlEnvoiSms = $urlEnvoiSms;
         $this->urlCompteRenduSms = $urlCompteRenduSms;
@@ -80,6 +86,7 @@ class SmsModeService
         $this->urlListeSms = $urlListeSms;
         $this->urlStatutSms = $urlStatutSms;
         $this->urlListeReponsesSms = $urlListeReponsesSms;
+        $this->urlTransfertCredits = $urlTransfertCredits;
     }
 
     /**
@@ -242,6 +249,7 @@ class SmsModeService
      * @param $pass : password du compte principal
      * @param null $accessToken : si authentification par token (pseudo et pass optionnel dans ce cas)
      * @param $pseudoToDelete : pseudo du sous compte à supprimer
+     * @return SmsModeCreationResult
      */
     public function supprimerSousCompte($pseudo, $pass, $accessToken=null, $pseudoToDelete)
     {
@@ -260,6 +268,37 @@ class SmsModeService
         $result = curl_exec($ch);
         curl_close($ch);
         return new SmsModeCreationResult($result);
+    }
+
+    /**
+     * @param $pseudo : pseudo du compte à debiter
+     * @param $pass : password du compte à débiter
+     * @param null $accessToken : si authentification par token (pseudo et pass optionnel dans ce cas)
+     * @param $targetPseudo : pseudo du compte à crediter
+     * @param int $credits : nombre de credits à créditer (entier)
+     */
+    public function transfererCredits($pseudo, $pass, $accessToken=null,$targetPseudo, int $credits, $reference=null)
+    {
+        $fields = "";
+        if(null != $accessToken){
+            $fields = sprintf('accessToken=%s', $accessToken);
+        }else{
+            $fields = sprintf('pseudo=%s&pass=%s', $pseudo, $pass);
+        }
+        $fields .= sprintf('&targetPseudo=%s', $targetPseudo);
+        $fields .= sprintf('&creditAmount=%d', $credits);
+        if(null != $reference){
+            $fields .= sprintf('&reference=%s', $reference);
+        }
+
+        $ch = curl_init();
+        curl_setopt($ch,CURLOPT_URL, $this->urlTransfertCredits);
+        curl_setopt($ch,CURLOPT_POST, 1);
+        curl_setopt($ch,CURLOPT_POSTFIELDS, $fields);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        $result = curl_exec($ch);
+        curl_close($ch);
+        return $result;
     }
 
 }

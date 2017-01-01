@@ -31,6 +31,7 @@ class MumbeeSmsModeExtension extends Extension
         $container->setParameter('mumbee_smsmode.url_liste_sms', $config['url_liste_sms']);
         $container->setParameter('mumbee_smsmode.url_statut_sms', $config['url_statut_sms']);
         $container->setParameter('mumbee_smsmode.url_liste_reponses_sms', $config['url_liste_reponses_sms']);
+        $container->setParameter('mumbee_smsmode.url_transfert_credits', $config['url_transfert_credits']);
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
