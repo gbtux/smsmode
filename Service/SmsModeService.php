@@ -7,6 +7,7 @@
 
 namespace Mumbee\SmsModeBundle\Service;
 
+use Mumbee\SmsModeBundle\Entity\SmsModeCreationResult;
 use Mumbee\SmsModeBundle\Entity\SmsModeResult;
 use Mumbee\SmsModeBundle\Entity\SmsModeCompteRenduCollection;
 
@@ -205,7 +206,7 @@ class SmsModeService
      * @param $newPseudo : pseudo du sous compte
      * @param $newPassword : password du sous compte
      * @param null $reference : optionnel si on veut garder une reference du compte
-     * @return mixed
+     * @return SmsModeCreationResult
      * @throws \Exception : si newPseudo > 50 caracteres
      */
     public function creerSousSompte($pseudo, $pass, $accessToken=null, $newPseudo, $newPassword, $reference = null)
@@ -227,6 +228,32 @@ class SmsModeService
 
         $ch = curl_init();
         curl_setopt($ch,CURLOPT_URL, $this->urlCreationSousCompteClient);
+        curl_setopt($ch,CURLOPT_POST, 1);
+        curl_setopt($ch,CURLOPT_POSTFIELDS, $fields);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        $result = curl_exec($ch);
+        curl_close($ch);
+        return new SmsModeCreationResult($result);
+    }
+
+    /**
+     * Supprimer un sous compte client
+     * @param $pseudo : pseudo du compte principal
+     * @param $pass : password du compte principal
+     * @param null $accessToken : si authentification par token (pseudo et pass optionnel dans ce cas)
+     * @param $pseudoToDelete : pseudo du sous compte à supprimer
+     */
+    public function supprimerSousCompte($pseudo, $pass, $accessToken=null, $pseudoToDelete)
+    {
+        $fields = "";
+        if(null != $accessToken){
+            $fields = sprintf('accessToken=%s', $accessToken);
+        }else{
+            $fields = sprintf('pseudo=%s&pass=%s', $pseudo, $pass);
+        }
+        $fields .= sprintf('&pseudoToDelete=%s', $pseudoToDelete);
+        $ch = curl_init();
+        curl_setopt($ch,CURLOPT_URL, $this->urlSuppressionSousCompteClient);
         curl_setopt($ch,CURLOPT_POST, 1);
         curl_setopt($ch,CURLOPT_POSTFIELDS, $fields);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);

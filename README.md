@@ -88,3 +88,11 @@ php bin/console mumbee:sms:compte_rendu <SMSMode_pseudo> <SMSMode_password> <SMS
 ```
 php bin/console mumbee:sms:solde <SMSMode_pseudo> <SMSMode_password>
 ```
+
+### Create a sub account
+
+```
+php bin/console mumbee:sms:compte:create <SMSMode_pseudo> <SMSMode_password> <newPseudo> <newPassword> <optionnalReference>
+```
+
+### Delete a sub account

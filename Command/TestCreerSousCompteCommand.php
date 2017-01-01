@@ -8,6 +8,7 @@
 
 namespace Mumbee\SmsModeBundle\Command;
 
+use Mumbee\SmsModeBundle\Entity\SmsModeCreationResult;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -51,7 +52,11 @@ class TestCreerSousCompteCommand extends ContainerAwareCommand
         $smsService = $this->getContainer()->get('mumbee_smsmode');
         $result = $smsService->creerSousSompte($pseudo, $password, null, $newPseudo, $newPassword, $reference);
         $io = new SymfonyStyle($input, $output);
-        $io->success($result);
+        if($result->getCode() == SmsModeCreationResult::CODE_RETOUR_CREATION_EFFECTUEE) {
+            $io->success(sprintf('Le compte %s a été créé avec succès : code %s (%s)', $newPseudo, $result->getCode(), $result->getDescription()));
+        }else{
+            $io->warning(sprintf('La création du compte %s a échouée : code %s (%s)', $newPseudo, $result->getCode(), $result->getDescription()));
+        }
     }
 
 }
