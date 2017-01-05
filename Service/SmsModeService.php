@@ -7,6 +7,7 @@
 
 namespace Mumbee\SmsModeBundle\Service;
 
+use Mumbee\SmsModeBundle\Entity\SmsModeListResult;
 use Mumbee\SmsModeBundle\Entity\SmsModeSimpleResult;
 use Mumbee\SmsModeBundle\Entity\SmsModeResult;
 use Mumbee\SmsModeBundle\Entity\SmsModeCompteRenduCollection;
@@ -390,6 +391,13 @@ class SmsModeService
         return new SmsModeSimpleResult($result);
     }
 
+    /**
+     * Liste des envois SMS
+     * @param $pseudo : pseudo du compte principal
+     * @param $pass : password du compte principal
+     * @param null $accessToken : si authentification par token (pseudo et pass optionnel dans ce cas)
+     * @return SmsModeListResult
+     */
     public function listerSms($pseudo, $pass, $accessToken=null)
     {
         $fields = "";
@@ -405,7 +413,18 @@ class SmsModeService
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
         $result = curl_exec($ch);
         curl_close($ch);
-        return $result;
+        return new SmsModeListResult($result);
+        /**
+         * "
+
+        gQ780xQGSOPH|Wed Dec 28 16:34:29 CET 2016|Ceci est une rponse ;)|36034|0.0|1<br/>
+
+        PYhSseuPVRF3|Wed Dec 28 15:30:05 CET 2016|Ceci est un message|0662561927|1.0|1<br/>
+
+        e8bz9K2HDZNE|Wed Dec 28 15:20:19 CET 2016|Ceci est un message|0760467030|1.0|1<br/>
+
+        "
+         */
     }
 
 

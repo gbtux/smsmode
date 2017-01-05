@@ -43,9 +43,9 @@ class TestListerSmsCommand extends ContainerAwareCommand
         $password = $input->getArgument('password');
 
         $smsService = $this->getContainer()->get('mumbee_smsmode');
-        $result = $smsService->listerSms($pseudo, $password);
+        $smsList = $smsService->listerSms($pseudo, $password);
         $io = new SymfonyStyle($input, $output);
-        $output->writeln($result);
+        $io->table(array('smsId', 'date envoi', 'texte sms', 'téléphone destinataire', 'côut en crédit', 'nbre de destinatires'), $smsList->getItems());
     }
 
 }
