@@ -365,5 +365,48 @@ class SmsModeService
         return new SmsModeSimpleResult($result);
     }
 
+    /**
+     * @param $pseudo : pseudo du compte principal
+     * @param $pass : password du compte principal
+     * @param null $accessToken : si authentification par token (pseudo et pass optionnel dans ce cas)
+     * @param $smsId : ID de l'envoi SMS à supprimer
+     */
+    public function supprimerSms($pseudo, $pass, $accessToken=null, $smsId)
+    {
+        $fields = "";
+        if(null != $accessToken){
+            $fields = sprintf('accessToken=%s', $accessToken);
+        }else{
+            $fields = sprintf('pseudo=%s&pass=%s', $pseudo, $pass);
+        }
+        $fields .= sprintf('&smsID=%s', $smsId);
+        $ch = curl_init();
+        curl_setopt($ch,CURLOPT_URL, $this->urlSuppressionSms);
+        curl_setopt($ch,CURLOPT_POST, 1);
+        curl_setopt($ch,CURLOPT_POSTFIELDS, $fields);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        $result = curl_exec($ch);
+        curl_close($ch);
+        return new SmsModeSimpleResult($result);
+    }
+
+    public function listerSms($pseudo, $pass, $accessToken=null)
+    {
+        $fields = "";
+        if(null != $accessToken){
+            $fields = sprintf('accessToken=%s', $accessToken);
+        }else{
+            $fields = sprintf('pseudo=%s&pass=%s', $pseudo, $pass);
+        }
+        $ch = curl_init();
+        curl_setopt($ch,CURLOPT_URL, $this->urlListeSms);
+        curl_setopt($ch,CURLOPT_POST, 1);
+        curl_setopt($ch,CURLOPT_POSTFIELDS, $fields);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        $result = curl_exec($ch);
+        curl_close($ch);
+        return $result;
+    }
+
 
 }

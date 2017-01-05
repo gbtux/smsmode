@@ -107,3 +107,13 @@ php bin/console mumbee:sms:compte:delete <SMSMode_pseudo> <SMSMode_password> <ps
 php bin/console mumbee:sms:transfert <SMSMode_pseudo> <SMSMode_password> <targetPseudo> <nbCredits>
 ```
 
+### Add Contact
+
+```
+php bin/console mumbee:sms:contact:add <SMSMode_pseudo> <SMSMode_password> <ContactName> <ContactNumber> <OptionalContactSurname> <OptionalContactCompany> OptionalContactGroups (separated by space)>
+```
+
+### Delete SMS
+
+
+### List SMS
