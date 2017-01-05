@@ -16,11 +16,12 @@ class SmsModeListResult
 
     public function __construct($result)
     {
-        $this->items = explode("<br/>", $result);
-        //$ar = explode("<br/>", $result);
-        /*foreach($ar as $element){
-            $ar2 = explode("|",$element);
-            $item = array(); // smsId | date_envoi | texte_sms | téléphone_destinataire | coût_en_crédit | nbre_de_destinataires |
+        $ar = explode("<br/>", $result);
+        foreach($ar as $element) {
+            $ar2 = explode("|", $element);
+            $this->items[] = $ar2;
+        }
+        /*    $item = array(); // smsId | date_envoi | texte_sms | téléphone_destinataire | coût_en_crédit | nbre_de_destinataires |
             $item['smsId'] = $ar2[0];
             $item['date_envoi'] = $ar2[1];
             $item['texte_sms'] = $ar2[2];
