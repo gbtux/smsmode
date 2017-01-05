@@ -50,9 +50,9 @@ class TestAjoutContactCommand extends ContainerAwareCommand
         $password = $input->getArgument('password');
         $nom = $input->getArgument('nom');
         $prenom = $input->getArgument('prenom');
-        $mobile = $input->getArgument('reference');
+        $mobile = $input->getArgument('mobile');
         $societe = $input->getArgument('societe');
-        $groupes = $input->getArgument('societe');
+        $groupes = $input->getArgument('groupes');
 
         $smsService = $this->getContainer()->get('mumbee_smsmode');
         $result = $smsService->ajouterContact($pseudo, $password, null, $nom, $mobile, $prenom, $societe, null, null, $groupes);
