@@ -42,9 +42,9 @@ class TestListerReponsesCommand extends  ContainerAwareCommand
         $pseudo = $input->getArgument('pseudo');
         $password = $input->getArgument('password');
         $smsService = $this->getContainer()->get('mumbee_smsmode');
-        $result = $smsService->listerReponses($pseudo, $password);
+        $list = $smsService->listerReponses($pseudo, $password);
         $io = new SymfonyStyle($input, $output);
-        var_dump($result);die;
+        $io->table(array('smsId', 'date envoi', 'texte sms', 'téléphone destinataire', 'côut en crédit', 'nbre de destinatires'), $ist->getItems());
     }
 
 }
