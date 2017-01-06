@@ -423,6 +423,7 @@ class SmsModeService
      * @param $pass : password du compte principal
      * @param null $accessToken : si authentification par token (pseudo et pass optionnel dans ce cas)
      * @param $smsId : ID de l'envoi SMS dont on veut connaitre le statut
+     * @return SmsModeStateResult
      */
     public function statutSms($pseudo, $pass, $accessToken=null, $smsId)
     {
@@ -441,6 +442,42 @@ class SmsModeService
         $result = curl_exec($ch);
         curl_close($ch);
         return new SmsModeStateResult($result);
+    }
+
+    /**
+     * Lister les réponses aux SMS
+     * @param $pseudo : pseudo du compte principal
+     * @param $pass : password du compte principal
+     * @param null $accessToken : si authentification par token (pseudo et pass optionnel dans ce cas)
+     * @param null $start : Index de la première réponse de la liste (par défaut 0) (ne peut etre utilise avec les dates)
+     * @param null $offset : Nombre de réponse à obtenir (par défaut 50)
+     * @param $startDate : Date de début de la recherche (au format ddmmyyyy-hh:mm) (endDate obligatoire)
+     * @param $endDate : Date de fin de la recherche (au format ddmmyyyy-hh:mm) (startDate obligatoire)
+     */
+    public function listerReponses($pseudo, $pass, $accessToken=null, $start=null, $offset=null, $startDate=null, $endDate=null)
+    {
+        $fields = "";
+        if(null != $accessToken){
+            $fields = sprintf('accessToken=%s', $accessToken);
+        }else{
+            $fields = sprintf('pseudo=%s&pass=%s', $pseudo, $pass);
+        }
+        if(null != $start)
+            $fields .= sprintf('&start=%s', $start);
+        if(null != $offset)
+            $fields .= sprintf('&offset=%s', $offset);
+        if(null != $startDate)
+            $fields .= sprintf('&startDate=%s', $startDate);
+        if(null != $endDate)
+            $fields .= sprintf('&endDate=%s', $endDate);
+        $ch = curl_init();
+        curl_setopt($ch,CURLOPT_URL, $this->urlListeReponsesSms);
+        curl_setopt($ch,CURLOPT_POST, 1);
+        curl_setopt($ch,CURLOPT_POSTFIELDS, $fields);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        $result = curl_exec($ch);
+        curl_close($ch);
+        return $result;
     }
 
 
