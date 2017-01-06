@@ -48,7 +48,7 @@ class TestStatutSmsCommand extends  ContainerAwareCommand
         $smsService = $this->getContainer()->get('mumbee_smsmode');
         $result = $smsService->statutSms($pseudo, $password, null,$smsId);
         $io = new SymfonyStyle($input, $output);
-        if($result->getCode() == SmsModeStateResult::CODE_RETOUR_ENVOYE) {
+        if(($result->getCode() === SmsModeStateResult::CODE_RETOUR_ENVOYE) || ($result->getCode() === SmsModeStateResult::CODE_RETOUR_RECU)) {
             $io->success(sprintf('Le SMS %s a été envoyé avec succès : code %s (%s)', $smsId, $result->getCode(), $result->getDescription()));
         }else{
             $io->warning(sprintf("L'envoi de SMS n'est pas finalisé : code %s (%s)", $result->getCode(), $result->getDescription()));
