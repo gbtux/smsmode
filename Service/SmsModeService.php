@@ -11,6 +11,7 @@ use Mumbee\SmsModeBundle\Entity\SmsModeListResult;
 use Mumbee\SmsModeBundle\Entity\SmsModeSimpleResult;
 use Mumbee\SmsModeBundle\Entity\SmsModeResult;
 use Mumbee\SmsModeBundle\Entity\SmsModeCompteRenduCollection;
+use Mumbee\SmsModeBundle\Entity\SmsModeStateResult;
 
 /**
  * Class SmsModeService
@@ -414,17 +415,32 @@ class SmsModeService
         $result = curl_exec($ch);
         curl_close($ch);
         return new SmsModeListResult($result);
-        /**
-         * "
+    }
 
-        gQ780xQGSOPH|Wed Dec 28 16:34:29 CET 2016|Ceci est une rponse ;)|36034|0.0|1<br/>
-
-        PYhSseuPVRF3|Wed Dec 28 15:30:05 CET 2016|Ceci est un message|0662561927|1.0|1<br/>
-
-        e8bz9K2HDZNE|Wed Dec 28 15:20:19 CET 2016|Ceci est un message|0760467030|1.0|1<br/>
-
-        "
-         */
+    /**
+     * Statut d'un SMS
+     * @param $pseudo : pseudo du compte principal
+     * @param $pass : password du compte principal
+     * @param null $accessToken : si authentification par token (pseudo et pass optionnel dans ce cas)
+     * @param $smsId : ID de l'envoi SMS dont on veut connaitre le statut
+     */
+    public function statutSms($pseudo, $pass, $accessToken=null, $smsId)
+    {
+        $fields = "";
+        if(null != $accessToken){
+            $fields = sprintf('accessToken=%s', $accessToken);
+        }else{
+            $fields = sprintf('pseudo=%s&pass=%s', $pseudo, $pass);
+        }
+        $fields .= sprintf('&smsID=%s', $smsId);
+        $ch = curl_init();
+        curl_setopt($ch,CURLOPT_URL, $this->urlStatutSms);
+        curl_setopt($ch,CURLOPT_POST, 1);
+        curl_setopt($ch,CURLOPT_POSTFIELDS, $fields);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        $result = curl_exec($ch);
+        curl_close($ch);
+        return new SmsModeStateResult($result);
     }
 
 
