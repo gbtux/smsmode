@@ -117,3 +117,7 @@ php bin/console mumbee:sms:contact:add <SMSMode_pseudo> <SMSMode_password> <Cont
 
 
 ### List SMS
+
+```
+php bin/console mumbee:sms:list <SMSMode_pseudo> <SMSMode_password>
+```

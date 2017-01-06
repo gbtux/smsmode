@@ -17,8 +17,8 @@ class SmsModeListResult
     public function __construct($result)
     {
         $ar = explode("<br/>", $result);
-        foreach($ar as trim($element)) {
-            $ar2 = explode("|", $element);
+        foreach($ar as $element) {
+            $ar2 = explode("|", trim($element));
             $this->items[] = $ar2;
         }
     }
