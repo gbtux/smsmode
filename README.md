@@ -131,3 +131,7 @@ php bin/console mumbee:sms:list <SMSMode_pseudo> <SMSMode_password>
 php bin/console mumbee:sms:status <SMSMode_pseudo> <SMSMode_password> <SMSid>
 ```
 
+### Answers
+
+```
+php bin/console mumbee:sms:answers <SMSMode_pseudo> <SMSMode_password>
