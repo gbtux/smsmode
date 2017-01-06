@@ -124,3 +124,10 @@ php bin/console mumbee:sms:delete <SMSMode_pseudo> <SMSMode_password> <SMSid>
 ```
 php bin/console mumbee:sms:list <SMSMode_pseudo> <SMSMode_password>
 ```
+
+### Status SMS
+
+```
+php bin/console mumbee:sms:status <SMSMode_pseudo> <SMSMode_password> <SMSid>
+```
+
