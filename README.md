@@ -115,6 +115,9 @@ php bin/console mumbee:sms:contact:add <SMSMode_pseudo> <SMSMode_password> <Cont
 
 ### Delete SMS
 
+```
+php bin/console mumbee:sms:delete <SMSMode_pseudo> <SMSMode_password> <SMSid>
+```
 
 ### List SMS
 
