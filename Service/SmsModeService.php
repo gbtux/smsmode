@@ -160,7 +160,7 @@ class SmsModeService
         curl_setopt($ch,CURLOPT_URL, $this->urlEnvoiSms);
         curl_setopt($ch,CURLOPT_POST, 1);
         curl_setopt($ch,CURLOPT_POSTFIELDS, $fields);
-
+	curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
         $result = curl_exec($ch);
 
         curl_close($ch);
@@ -188,7 +188,7 @@ class SmsModeService
         curl_setopt($ch,CURLOPT_URL, $this->urlCompteRenduSms);
         curl_setopt($ch,CURLOPT_POST, 1);
         curl_setopt($ch,CURLOPT_POSTFIELDS, $fields);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $result = curl_exec($ch);
         curl_close($ch);
         return new SmsModeCompteRenduCollection($result);
